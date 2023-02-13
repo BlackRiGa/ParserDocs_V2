@@ -1,5 +1,8 @@
 package movies.spring.data.neo4j.movies;
 
+import movies.spring.data.neo4j.dto.CastMemberDto;
+import movies.spring.data.neo4j.dto.MovieDetailsDto;
+import movies.spring.data.neo4j.service.MovieService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.neo4j.driver.Driver;

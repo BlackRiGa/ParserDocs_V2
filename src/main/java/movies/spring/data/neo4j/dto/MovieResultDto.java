@@ -1,4 +1,6 @@
-package movies.spring.data.neo4j.movies;
+package movies.spring.data.neo4j.dto;
+
+import movies.spring.data.neo4j.models.Movie;
 
 import java.util.Objects;
 

@@ -1,5 +1,9 @@
-package movies.spring.data.neo4j.movies;
+package movies.spring.data.neo4j.service;
 
+import movies.spring.data.neo4j.dto.CastMemberDto;
+import movies.spring.data.neo4j.dto.MovieDetailsDto;
+import movies.spring.data.neo4j.dto.MovieResultDto;
+import movies.spring.data.neo4j.repository.MovieRepository;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.SessionConfig;
@@ -12,15 +16,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-/**
- * @author Michael Hunger
- * @author Mark Angrish
- * @author Jennifer Reif
- * @author Michael J. Simons
- */
 @Service
 public class MovieService {
 

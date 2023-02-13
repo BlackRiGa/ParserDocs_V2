@@ -1,4 +1,4 @@
-package movies.spring.data.neo4j;
+package movies.spring.data.neo4j.util;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

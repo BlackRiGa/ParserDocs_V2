@@ -1,13 +1,11 @@
-package movies.spring.data.neo4j.api;
+package movies.spring.data.neo4j.controller;
 
-import movies.spring.data.neo4j.movies.MovieDetailsDto;
-import movies.spring.data.neo4j.movies.MovieResultDto;
-import movies.spring.data.neo4j.movies.MovieService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import movies.spring.data.neo4j.dto.MovieDetailsDto;
+import movies.spring.data.neo4j.dto.MovieResultDto;
+import movies.spring.data.neo4j.models.Movie;
+import movies.spring.data.neo4j.service.MovieService;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -29,10 +27,6 @@ class MovieController {
 		return movieService.fetchDetailsByTitle(title);
 	}
 
-	@PostMapping("/movie/{title}/vote")
-	public int voteByTitle(@PathVariable("title") String title) {
-		return movieService.voteInMovieByTitle(title);
-	}
 
 	@GetMapping("/search")
 	List<MovieResultDto> search(@RequestParam("q") String title) {
@@ -54,4 +48,23 @@ class MovieController {
 		}
 		return result;
 	}
+
+
+
+	// TODO: 07.02.2023
+//СОЗДАТЬ НОВУЮ ЗАПИСЬ
+//	@PostMapping
+//	public ResultEvent<Movie> createEventByCalendars(@PathVariable int id) {
+//		if (bindingResult.hasErrors()) returnErrorsToClient(bindingResult);
+//		return new ResultEvent<Event>(eventService.save(event));
+//	}
+//
+//
+// УДАЛИТЬ ЗАПИСЬ
+//	@PostMapping
+//	public ResultEvent<Movie> createEventByCalendars(@PathVariable int id) {
+//		if (bindingResult.hasErrors()) returnErrorsToClient(bindingResult);
+//		return new ResultEvent<Event>(eventService.save(event));
+//	}
+
 }

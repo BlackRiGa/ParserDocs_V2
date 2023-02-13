@@ -1,0 +1,2 @@
+[{"ID":1,"FORM":"Мама","LEMMA":"мама","POSTAG":"N","FEATS":"Ncfsny","HEAD":0,"DEPREL":"ROOT"},{"ID":2,"FORM":"мыла","LEMMA":"мыло","POSTAG":"N","FEATS":"Ncnsgn","HEAD":1,"DEPREL":"1-компл"},{"ID":3,"FORM":"раму","LEMMA":"рама","POSTAG":"N","FEATS":"Ncfsan","HEAD":1,"DEPREL":"сочин"},{"ID":4,"FORM":"и","LEMMA":"и","POSTAG":"C","FEATS":"C","HEAD":3,"DEPREL":"сочин"},{"ID":5,"FORM":"окно","LEMMA":"окно","POSTAG":"N","FEATS":"Ncnsan","HEAD":4,"DEPREL":"соч-союзн"}]
+E

@@ -2,13 +2,9 @@ package movies.spring.data.neo4j;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-/**
- * @author Michael Hunger
- * @author Mark Angrish
- * @author Michael J. Simons
- */
-@SpringBootApplication
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 public class SampleMovieApplication {
 
     public static void main(String[] args) {
