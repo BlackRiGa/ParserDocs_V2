@@ -3,8 +3,6 @@ package movies.spring.data.neo4j.models;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
-import java.util.List;
-
 /**
  * @author Mark Angrish
  * @author Michael J. Simons
@@ -12,41 +10,41 @@ import java.util.List;
 @Node
 public class Movie {
 
-	@Id
-	private final String title;
+    @Id
+    private final String title;
 
-	private final String tagline;
+    private final String tagline;
 
-	private Integer released;
+    private Integer released;
 
-	private Long votes;
+    private Long votes;
 
-	public Movie(String title, String tagline) {
-		this.title = title;
-		this.tagline = tagline;
-	}
+    public Movie(String title, String tagline) {
+        this.title = title;
+        this.tagline = tagline;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public String getTagline() {
-		return tagline;
-	}
+    public String getTagline() {
+        return tagline;
+    }
 
-	public Integer getReleased() {
-		return released;
-	}
+    public Integer getReleased() {
+        return released;
+    }
 
-	public Long getVotes() {
-		return votes;
-	}
+    public void setReleased(Integer released) {
+        this.released = released;
+    }
 
-	public void setReleased(Integer released) {
-		this.released = released;
-	}
+    public Long getVotes() {
+        return votes;
+    }
 
-	public void setVotes(Long votes) {
-		this.votes = votes;
-	}
+    public void setVotes(Long votes) {
+        this.votes = votes;
+    }
 }

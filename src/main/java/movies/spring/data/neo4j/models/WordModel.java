@@ -25,7 +25,7 @@ public class WordModel {
     private String deprel;
 
     @Relationship(type = "DIRECTED", direction = Relationship.Direction.INCOMING)
-    private List<WordModel> directors = new ArrayList<>();
+    private final List<WordModel> directors = new ArrayList<>();
 
     public WordModel(String id, String local_id, String form, String lemma, String postag, String feats, String head, String deprel) {
         this.id = id;

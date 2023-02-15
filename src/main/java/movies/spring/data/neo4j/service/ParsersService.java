@@ -2,9 +2,7 @@ package movies.spring.data.neo4j.service;
 
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.Session;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.FileWriter;
@@ -31,7 +29,7 @@ public class ParsersService {
     }
 
     public void textInFiles(String text) {
-        try (FileWriter writer = new FileWriter("C:\\Users\\i.sobol\\.Neo4jDesktop\\relate-data\\dbmss\\dbms-a3b22860-160e-4842-8073-89996fec4f70\\import\\file\\notes5.json", false)) {
+        try (FileWriter writer = new FileWriter("C:\\Users\\i.sobol\\.Neo4jDesktop\\relate-data\\dbmss\\dbms-a3b22860-160e-4842-8073-89996fec4f70\\import\\file\\notes6.json", false)) {
             writer.write(text);
             writer.append('\n');
             writer.flush();
@@ -39,4 +37,24 @@ public class ParsersService {
             System.out.println(ex.getMessage());
         }
     }
+
+//    public List<Long> createModelFromJSON() {
+//        try (Session session = driver.session()) {
+//            return session.run("CALL apoc.load.json(\"file//notes5.json\")\n" +
+//                            "YIELD value\n" +
+//                            "MERGE (p:WordModel {id: value.ID})\n" +
+//                            "SET p.form = value.FORM\n" +
+//                            "set p.lemma = value.LEMMA\n" +
+//                            "SET p.postag = value.POSTAG\n" +
+//                            "set p.feats = value.FEATS\n" +
+//                            "SET p.deprel = value.DEPREL\n" +
+//                            "set p.head = value.HEAD\n" +
+//                            "return p, value")
+//                    .list(r -> r.get("p").asNode().id());
+//        }
+//    }
+//    MATCH (p:WordModel),(q:WordModel)
+//    WHERE p.id = q.head and p.form<>"."
+//    CREATE (p)-[rel:DEPENDS]->(c)
+//    RETURN p,c,rel;
 }

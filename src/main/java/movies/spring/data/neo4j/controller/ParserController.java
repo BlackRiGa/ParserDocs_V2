@@ -22,16 +22,15 @@ public class ParserController {
 
     @PostMapping
     @RequestMapping("/parse")
-    public String parseWithMp4(@RequestBody String text1){
+    public String parseWithMp4(@RequestBody String text1) {
         System.out.println(text1);
         return parsersService.sendTextForParse(text1);
     }
 
     @GetMapping(path = "/words", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Long> getMovieTitles() {
-
+    public List<Long> createModelFromJSON() {
         try (Session session = driver.session()) {
-            return session.run("CALL apoc.load.json(\"file//notes5.json\")\n" +
+            return session.run("CALL apoc.load.json(\"file//notes6.json\")\n" +//TODO Сделать меняющийся файл
                             "YIELD value\n" +
                             "MERGE (p:WordModel {id: value.ID})\n" +
                             "SET p.form = value.FORM\n" +
@@ -44,4 +43,5 @@ public class ParserController {
                     .list(r -> r.get("p").asNode().id());
         }
     }
+
 }
