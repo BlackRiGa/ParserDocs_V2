@@ -31,7 +31,7 @@ public class ParsersService {
     }
 
     public void textInFiles(String text) {
-        try (FileWriter writer = new FileWriter("notes3.txt", false)) {
+        try (FileWriter writer = new FileWriter("C:\\Users\\i.sobol\\.Neo4jDesktop\\relate-data\\dbmss\\dbms-a3b22860-160e-4842-8073-89996fec4f70\\import\\file\\notes5.json", false)) {
             writer.write(text);
             writer.append('\n');
             writer.flush();
@@ -39,17 +39,4 @@ public class ParsersService {
             System.out.println(ex.getMessage());
         }
     }
-
-    @GetMapping(path = "/words", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<String> getMovieTitles() {
-
-        try (Session session = driver.session()) {
-            return session.run("CALL apoc.load.json(\"file:///person.json\")\n" +
-                            "YIELD value\n" +
-                            "RETURN value;")
-                    .list(r -> r.get("m").asNode().get("title").asString());
-        }
-    }
-
-
 }
