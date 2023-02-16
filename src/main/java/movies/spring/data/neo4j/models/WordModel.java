@@ -11,10 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonIdentityInfo(generator = JSOGGenerator.class)
-@Node
+@Node("WordModel")
 public class WordModel {
     @Id
-    @GeneratedValue
     private String id;
     private String local_id;
     private String form;
@@ -37,6 +36,7 @@ public class WordModel {
         this.head = head;
         this.deprel = deprel;
     }
+
 
     public String getLocal_id() {
         return local_id;
