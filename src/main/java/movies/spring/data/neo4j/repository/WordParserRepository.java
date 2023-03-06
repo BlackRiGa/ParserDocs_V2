@@ -3,10 +3,6 @@ package movies.spring.data.neo4j.repository;
 import movies.spring.data.neo4j.models.WordModel;
 import org.neo4j.driver.internal.shaded.reactor.core.publisher.Mono;
 import org.springframework.data.neo4j.repository.ReactiveNeo4jRepository;
-import org.springframework.data.neo4j.repository.query.Query;
-import org.springframework.data.repository.CrudRepository;
-
-import java.util.List;
 
 public interface WordParserRepository extends ReactiveNeo4jRepository<WordModel, String> {
     Mono<WordModel> findOneById(String id);

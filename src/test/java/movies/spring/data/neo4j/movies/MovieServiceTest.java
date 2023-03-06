@@ -38,6 +38,14 @@ class MovieServiceTest {
         registry.add("spring.data.neo4j.database", () -> "neo4j");
     }
 
+    private static String env(String name, String defaultValue) {
+        String value = System.getenv(name);
+        if (value == null) {
+            return defaultValue;
+        }
+        return value;
+    }
+
     @BeforeEach
     void setup(@Autowired Driver driver) {
         try (Session session = driver.session()) {
@@ -83,13 +91,5 @@ class MovieServiceTest {
                                 Map.of("label", "actor", "title", "Keanu Reeves")
                         )
                 ));
-    }
-
-    private static String env(String name, String defaultValue) {
-        String value = System.getenv(name);
-        if (value == null) {
-            return defaultValue;
-        }
-        return value;
     }
 }

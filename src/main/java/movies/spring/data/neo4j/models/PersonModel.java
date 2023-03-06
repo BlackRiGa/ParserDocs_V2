@@ -10,36 +10,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonIdentityInfo(generator = JSOGGenerator.class)
-@Node("WordModel")
-public class WordModel {
+@Node("PersonModel")
+public class PersonModel {
     @Relationship(type = "DIRECTED", direction = Relationship.Direction.INCOMING)
-    private final List<WordModel> directors = new ArrayList<>();
+    private final List<PersonModel> directors = new ArrayList<>();
     @Id
     private String localID;
     private String id;
     private String form;
-    private String lemma;
-    private String postag;
     private String feats;
     private String head;
-    private String deprel;
 
-    public WordModel(String id, String localId, String form, String lemma, String postag, String feats, String head, String deprel) {
-        this.id = id;
-        this.form = form;
-        this.lemma = lemma;
-        this.postag = postag;
-        this.feats = feats;
-        this.head = head;
-        this.deprel = deprel;
+    public List<PersonModel> getDirectors() {
+        return directors;
     }
 
-
-    public String getLocal_id() {
+    public String getLocalID() {
         return localID;
     }
 
-    public void setLocal_id(String local_id) {
+    public void setLocalID(String localID) {
         this.localID = localID;
     }
 
@@ -59,22 +49,6 @@ public class WordModel {
         this.form = form;
     }
 
-    public String getLemma() {
-        return lemma;
-    }
-
-    public void setLemma(String lemma) {
-        this.lemma = lemma;
-    }
-
-    public String getPostag() {
-        return postag;
-    }
-
-    public void setPostag(String postag) {
-        this.postag = postag;
-    }
-
     public String getFeats() {
         return feats;
     }
@@ -89,13 +63,5 @@ public class WordModel {
 
     public void setHead(String head) {
         this.head = head;
-    }
-
-    public String getDeprel() {
-        return deprel;
-    }
-
-    public void setDeprel(String deprel) {
-        this.deprel = deprel;
     }
 }
