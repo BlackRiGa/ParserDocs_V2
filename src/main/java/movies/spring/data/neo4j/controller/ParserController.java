@@ -16,18 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
 import java.io.IOException;
-
-import static movies.spring.data.neo4j.service.ParsersService.addJsonArray;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class ParserController {
     private final ParsersService parsersService;
+    private final JsonUtils jsonUtils;
     private final WordParserRepository wordParserRepository;
     private final Driver driver;
 
     @Autowired
-    public ParserController(ParsersService parsersService, WordParserRepository wordParserRepository, Driver driver) {
+    public ParserController(ParsersService parsersService, JsonUtils jsonUtils, WordParserRepository wordParserRepository, Driver driver) {
         this.parsersService = parsersService;
+        this.jsonUtils = jsonUtils;
         this.wordParserRepository = wordParserRepository;
         this.driver = driver;
     }
@@ -41,32 +43,36 @@ public class ParserController {
 
     //добавляет новые узлы из json
     @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void createModelFromJSON(@RequestBody String text1) {
-        try (Session session = driver.session()) {
-            System.out.println(text1);
-            parsersService.sendTextForParse(text1);
-            parsersService.textInFiles(ParsersService.replaceId());
-            ParsersService.replaceId();
-            System.out.println(ParsersService.replaceId());
-            session.run(" with randomUUID() AS uui\n" +
-                    " CALL apoc.load.json(\"file///notes4.json\") YIELD value\n" +
-                    "    UNWIND value AS q\n" +
-                    "    MERGE (p:WordModel {id: q.LocalID})\n" +
-                    "    ON CREATE SET p.id = q.ID,\n" +
-                    "    p.form = q.FORM,\n" +
-                    "    p.lemma = q.LEMMA,\n" +
-                    "    p.postag = q.POSTAG,\n" +
-                    "    p.feats = q.FEATS,\n" +
-                    "    p.deprel = uui,\n" +
-                    "    p.head = q.HEAD\n" +
-                    "    return p, q, value\n");
-            session.run("  MATCH (p:WordModel),(q:WordModel)\n" +
-                    "    WHERE p.id = q.head and p.deprel=q.deprel\n" +
-                    "    CREATE (q)-[rel:DEPENDS]->(p)");
-            parsersService.textInFiles(ParsersService.addJsonArray());
+    public void createModelFromJSON(@RequestBody String text1) throws IOException, ParseException {
+        System.out.println(text1);//TEXT
+        parsersService.sendTextForParse(text1);
+        parsersService.textInFiles(ParsersService.replaceId());
+        ParsersService.replaceId();
+        System.out.println(ParsersService.replaceId());//TEXT
+        parsersService.textInFiles(ParsersService.addJsonArray());
+        List<String> jsonString = new ArrayList<>();
+        List<String> listJson = jsonUtils.separetJSON();
+        JsonUtils.separetJSON();
+            Session session = driver.session();
+//            session.run(" with randomUUID() AS uui\n" +
+//                    " CALL apoc.load.json(\"file///notes" + j + ".json\") YIELD value\n" +
+//                    "    UNWIND value AS q\n" +
+//                    "    MERGE (p:WordModel {id: q.LocalID})\n" +
+//                    "    ON CREATE SET p.id = q.ID,\n" +
+//                    "    p.form = q.FORM,\n" +
+//                    "    p.lemma = q.LEMMA,\n" +
+//                    "    p.postag = q.POSTAG,\n" +
+//                    "    p.feats = q.FEATS,\n" +
+//                    "    p.deprel = uui,\n" +
+//                    "    p.head = q.HEAD\n" +
+//                    "    return p, q, value\n");
+////                for (int i = 0; i < listJson.size(); i++) {
+//            session.run("  MATCH (p:WordModel),(q:WordModel)\n" +
+//                    "    WHERE p.id = q.head and p.deprel=q.deprel\n" +
+//                    "    CREATE (q)-[rel:DEPENDS]->(p)");
             JsonUtils.jsonChangeForPerson();
-            session.run("    with randomUUID() AS uui2\n" +
-                    "    CALL apoc.load.json(\"file///notes5.json\") YIELD value\n" +
+            session.run(" with randomUUID() AS uui2\n" +
+                    "    CALL apoc.load.json(\"file///notes" + 1 + ".json\") YIELD value\n" +
                     "    UNWIND value AS q\n" +
                     "    MERGE (p:UserModel {id: q.LocalID})\n" +
                     "    ON CREATE SET p.id = q.ID,\n" +
@@ -75,13 +81,29 @@ public class ParserController {
                     "    p.feats = q.FEATS,\n" +
                     "    p.deprel = uui2\n" +
                     "    return p, q, value");
-            session.run("  MATCH (p:UserModel),(q:UserModel)\n" +
-                    "    WHERE q.feats='Npmsny' and p.deprel=q.deprel\n" +
+            session.run(" with randomUUID() AS uui2\n" +
+                    "    CALL apoc.load.json(\"file///notes" + 2 + ".json\") YIELD value\n" +
+                    "    UNWIND value AS q\n" +
+                    "    MERGE (p:UserModel {id: q.LocalID})\n" +
+                    "    ON CREATE SET p.id = q.ID,\n" +
+                    "    p.form = q.FORM,\n" +
+                    "    p.head = q.HEAD,\n" +
+                    "    p.feats = q.FEATS,\n" +
+                    "    p.deprel = uui2\n" +
+                    "    return p, q, value");
+            session.run(" with randomUUID() AS uui2\n" +
+                    "    CALL apoc.load.json(\"file///notes" + 3 + ".json\") YIELD value\n" +
+                    "    UNWIND value AS q\n" +
+                    "    MERGE (p:UserModel {id: q.LocalID})\n" +
+                    "    ON CREATE SET p.id = q.ID,\n" +
+                    "    p.form = q.FORM,\n" +
+                    "    p.head = q.HEAD,\n" +
+                    "    p.feats = q.FEATS,\n" +
+                    "    p.deprel = uui2\n" +
+                    "    return p, q, value");
+            Session session2 = driver.session();
+            session2.run("  MATCH (p:UserModel),(q:UserModel)\n" +
+                    "    WHERE q.feats='Npmsny' and p.deprel=q.deprel and p.feats<>'Npmsny'\n" +
                     "    CREATE (p)-[rel:DEPENDS]->(q)");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
         }
-    }
 }

@@ -43,43 +43,22 @@ public class ParsersService implements Iservices<WordModel> {
         return newString;
     }
 
-    public static String addJsonArray() throws IOException  {
+    public static String addJsonArray() throws IOException {
         FileReader reader = new FileReader("C:\\Users\\i.sobol\\.Neo4jDesktop\\relate-data\\dbmss\\dbms-a3b22860-160e-4842-8073-89996fec4f70\\import\\file\\notes4.json");
         StringBuilder str = new StringBuilder();
         int c;
         str.append("{\"testJson\":");
         while ((c = reader.read()) != -1) {
+//            System.out.println((char) c);
             str.append((char) c);
         }
         str.append("}");
-        System.out.println(str.toString());
-        return str.toString();
-    }
-
-    @Override
-    public WordModel update(WordModel wordModel) {
-        return null;
-    }
-
-    @Override
-    public WordModel save(WordModel wordModel) {
-        wordParserRepository.save(wordModel);
-        return wordModel;
-    }
-
-    @Override
-    public void delete(String id) {
-        wordParserRepository.deleteById(id);
-    }
-
-    @Override
-    public WordModel find(String id) {
-        return null;
-    }
-
-    @Override
-    public List<WordModel> findAll() {
-        return null;
+        String newString = str.toString().replace("\"PUNC\"},", "\"PUNC\"}], \"testJson3\":[");
+        String newString2 = newString.replaceFirst("\"testJson3\"", "\"testJson2\"");
+        System.out.println(str);
+        System.out.println(newString);
+        System.out.println(newString2);
+        return newString2.toString();
     }
 
     public String sendTextForParse(String text) {
@@ -104,6 +83,30 @@ public class ParsersService implements Iservices<WordModel> {
         }
     }
 
+    @Override
+    public WordModel update(WordModel wordModel) {
+        return null;
+    }
+
+    @Override
+    public WordModel save(WordModel wordModel) {
+        return null;
+    }
+
+    @Override
+    public void delete(String id) {
+
+    }
+
+    @Override
+    public WordModel find(String id) {
+        return null;
+    }
+
+    @Override
+    public List<WordModel> findAll() {
+        return null;
+    }
 
 //    MATCH (p:WordModel),(q:WordModel)
 //    WHERE p.id = q.head and p.LocalID=q.LocalID
