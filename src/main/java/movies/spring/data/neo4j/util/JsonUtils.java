@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Component
@@ -73,7 +74,9 @@ public class JsonUtils {
             flag++;
             JSONObject innerObj = (JSONObject) i.next();
             if (innerObj.get("FEATS").equals("Npmsny") || innerObj.get("FEATS").equals("Vmip3s-a-e") || innerObj.get("FEATS").equals("Ncfsan") || innerObj.get("FEATS").equals("Vmip3s-m-e") || innerObj.get("FEATS").equals("Vmn----a-p")){
-                str.append("{\"LocalID\":" + "\"").append(innerObj.get("LocalID")).append("\",").append("\"FORM\":").append("\"").append(innerObj.get("FORM")).append("\",").append("\"ID\":").append("\"").append(innerObj.get("ID")).append("\",").append("\"HEAD\":").append("\"").append(innerObj.get("HEAD")).append("\",").append("\"FEATS\":").append("\"").append(innerObj.get("FEATS")).append("\",").append("\"DEPREL\":").append("\"").append(innerObj.get("DEPREL")).append("\"");
+                UUID uniqueKey = UUID.randomUUID();
+                System.out.println(uniqueKey);
+                str.append("{\"UUID\":" + "\"").append(uniqueKey).append("\",").append("\"LocalID\":" + "\"").append(innerObj.get("LocalID")).append("\",").append("\"FORM\":").append("\"").append(innerObj.get("FORM")).append("\",").append("\"ID\":").append("\"").append(innerObj.get("ID")).append("\",").append("\"HEAD\":").append("\"").append(innerObj.get("HEAD")).append("\",").append("\"FEATS\":").append("\"").append(innerObj.get("FEATS")).append("\",").append("\"DEPREL\":").append("\"").append(innerObj.get("DEPREL")).append("\"");
                 if (flag == 7) {
                     str.append("}");
                 } else {
@@ -121,8 +124,8 @@ public class JsonUtils {
             flag++;
             JSONObject innerObj = (JSONObject) i2.next();
             if (!innerObj.get("LEMMA").equals(".")) {
-                str.append("{\"LocalID\":" + "\"").append(innerObj.get("LocalID")).append("\",").append("{\"ID\":" + "\"").append(innerObj.get("ID")).append("\",").append("\"FORM\":").append("\"").append(innerObj.get("FORM")).append("\",").append("\"LEMMA\":").append("\"").append(innerObj.get("LEMMA")).append("\",").append("\"HEAD\":").append("\"").append(innerObj.get("HEAD")).append("\",").append("\"POSTAG\":").append("\"").append(innerObj.get("POSTAG")).append("\",").append("\"FEATS\":").append("\"").append(innerObj.get("FEATS")).append("\",").append("\"DEPREL\":").append("\"").append(innerObj.get("DEPREL")).append("\"");
-                if (flag == 7) {
+                str.append("\"{LocalID\":" + "\"").append(innerObj.get("LocalID")).append("\",").append("{\"ID\":" + "\"").append(innerObj.get("ID")).append("\",").append("\"FORM\":").append("\"").append(innerObj.get("FORM")).append("\",").append("\"LEMMA\":").append("\"").append(innerObj.get("LEMMA")).append("\",").append("\"HEAD\":").append("\"").append(innerObj.get("HEAD")).append("\",").append("\"POSTAG\":").append("\"").append(innerObj.get("POSTAG")).append("\",").append("\"FEATS\":").append("\"").append(innerObj.get("FEATS")).append("\",").append("\"DEPREL\":").append("\"").append(innerObj.get("DEPREL")).append("\"");
+                if (flag == 8) {
                     str.append("}");
                 } else {
                     str.append("},");

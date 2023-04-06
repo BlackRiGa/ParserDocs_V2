@@ -1,69 +1,37 @@
 package movies.spring.data.neo4j.controller;
 
-import movies.spring.data.neo4j.dto.MovieDetailsDto;
-import movies.spring.data.neo4j.dto.MovieResultDto;
-import movies.spring.data.neo4j.service.MovieService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import movies.spring.data.neo4j.models.Neo4jModel.MovieModel;
+import movies.spring.data.neo4j.repositories.repositoryForNeo4j.MovieRepository;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.util.List;
-import java.util.Map;
+import javax.annotation.Resource;
 
-/**
- * @author Michael J. Simons
- */
 @RestController
-class MovieController {
-
-    private final MovieService movieService;
-
-    MovieController(MovieService movieService) {
-        this.movieService = movieService;
+@RequestMapping("/movies")
+public class MovieController {
+    @Resource
+    private MovieRepository movieRepository;
+    @PutMapping
+    Mono<MovieModel> createOrUpdateMovie(@RequestBody MovieModel newMovie) {
+        return movieRepository.save(newMovie);
     }
 
-    private static String stripWildcards(String title) {
-        String result = title;
-        if (result.startsWith("*")) {
-            result = result.substring(1);
-        }
-        if (result.endsWith("*")) {
-            result = result.substring(0, result.length() - 1);
-        }
-        return result;
+    @GetMapping(value = { "", "/" })
+    Flux<MovieModel> getMovies() {
+        return movieRepository.findAll();
     }
 
-    @GetMapping("/movie/{title}")
-    public MovieDetailsDto findByTitle(@PathVariable("title") String title) {
-        return movieService.fetchDetailsByTitle(title);
+    @GetMapping("/by-title")
+    Mono<MovieModel> byTitle(@RequestParam String title) {
+        return movieRepository.findOneByTitle(title);
     }
 
-    @GetMapping("/search")
-    List<MovieResultDto> search(@RequestParam("q") String title) {
-        return movieService.searchMoviesByTitle(stripWildcards(title));
+    @DeleteMapping("/{id}")
+    Mono<Void> delete(@PathVariable Long id) {
+        return movieRepository.deleteById(id);
     }
-
-    @GetMapping("/graph")
-    public Map<String, List<Object>> getGraph() {
-        return movieService.fetchMovieGraph();
-    }
-
-
-    // TODO: 07.02.2023
-//СОЗДАТЬ НОВУЮ ЗАПИСЬ
-//	@PostMapping
-//	public ResultEvent<Movie> createEventByCalendars(@PathVariable int id) {
-//		if (bindingResult.hasErrors()) returnErrorsToClient(bindingResult);
-//		return new ResultEvent<Event>(eventService.save(event));
-//	}
-//
-//
-// УДАЛИТЬ ЗАПИСЬ
-//	@PostMapping
-//	public ResultEvent<Movie> createEventByCalendars(@PathVariable int id) {
-//		if (bindingResult.hasErrors()) returnErrorsToClient(bindingResult);
-//		return new ResultEvent<Event>(eventService.save(event));
-//	}
-
 }
+
+
