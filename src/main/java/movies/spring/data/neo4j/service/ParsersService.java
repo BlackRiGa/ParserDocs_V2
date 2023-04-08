@@ -1,5 +1,9 @@
 package movies.spring.data.neo4j.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import movies.spring.data.neo4j.models.Neo4jModel.ActionModel;
+import movies.spring.data.neo4j.models.Neo4jModel.ObjectModel;
+import movies.spring.data.neo4j.models.Neo4jModel.UserModel;
 import movies.spring.data.neo4j.repositories.repositoryForNeo4j.UserRepositoryNeo4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -8,6 +12,8 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.core.DatabaseSelectionProvider;
 import org.springframework.data.neo4j.core.Neo4jClient;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -20,7 +26,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 @Service
-public class ParsersService{
+public class ParsersService {
     public static final String JSON_URL = "C:\\Users\\i.sobol\\.Neo4jDesktop\\relate-data\\dbmss\\dbms-a3b22860-160e-4842-8073-89996fec4f70\\import\\file\\notes4.json";
 
     private final UserRepositoryNeo4j wordParserRepository;
@@ -77,7 +83,7 @@ public class ParsersService{
         }
     }
 
-    public void textInFiles(String text, String filePath) {
+    public static void textInFiles(String text, String filePath) {
         try (FileWriter writer = new FileWriter(filePath, false)) {
             writer.write(text);
             writer.append('\n');
@@ -118,5 +124,54 @@ public class ParsersService{
             listArrayParse.add(lang.get(i).toString());
         }
         return listArrayParse;
+    }
+
+    public static void saveInNeo4j(String path) throws IOException, ParseException {
+        String list = addJsonArrayAfterPostgres(path);
+        textInFiles(list, path);
+        List<String> list1ForNeo4j = testArrayJsonParseAfterPostgres(path);
+        ObjectMapper mapper = new ObjectMapper();
+        JSONParser parser = new JSONParser();
+        for (int f = 0; f < list1ForNeo4j.size(); f++) {
+            if (list1ForNeo4j.get(f).contains("Npmsny")) {
+                JSONObject json = (JSONObject) parser.parse(list1ForNeo4j.get(f));
+                UserModel userModel = new UserModel();
+                userModel.setUuid((String) json.get("UUID"));
+                userModel.setForm((String) json.get("FORM"));
+                userModel.setHead((String) json.get("HEAD"));
+                userModel.setDeprel((String) json.get("DEPREL"));
+                userModel.setId((String) json.get("ID"));
+                userModel.setFeats((String) json.get("FEATS"));
+                userModel.setLocalID((String) json.get("LocalID"));
+                String jsonString1 = mapper.writeValueAsString(userModel);
+                WebClient.create().put().uri("http://localhost:8080/user/add_user/").bodyValue(jsonString1).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).exchange().block().bodyToMono(String.class).block();
+            }
+            if (list1ForNeo4j.get(f).contains("Vmip3s-a-e") || list1ForNeo4j.get(f).contains("Vmip3s-m-e") || list1ForNeo4j.get(f).contains("Vmn----a-p")) {
+                JSONObject json = (JSONObject) parser.parse(list1ForNeo4j.get(f));
+                ActionModel userModel = new ActionModel();
+                userModel.setUuid((String) json.get("UUID"));
+                userModel.setForm((String) json.get("FORM"));
+                userModel.setHead((String) json.get("HEAD"));
+                userModel.setDeprel((String) json.get("DEPREL"));
+                userModel.setId((String) json.get("ID"));
+                userModel.setFeats((String) json.get("FEATS"));
+                userModel.setLocalID((String) json.get("LocalID"));
+                String jsonString2 = mapper.writeValueAsString(userModel);
+                WebClient.create().put().uri("http://localhost:8080/user/add_action/").bodyValue(jsonString2).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).exchange().block().bodyToMono(String.class).block();
+            }
+            if (list1ForNeo4j.get(f).contains("Ncfsan")) {
+                JSONObject json = (JSONObject) parser.parse(list1ForNeo4j.get(f));
+                ObjectModel userModel = new ObjectModel();
+                userModel.setUuid((String) json.get("UUID"));
+                userModel.setForm((String) json.get("FORM"));
+                userModel.setHead((String) json.get("HEAD"));
+                userModel.setDeprel((String) json.get("DEPREL"));
+                userModel.setId((String) json.get("ID"));
+                userModel.setFeats((String) json.get("FEATS"));
+                userModel.setLocalID((String) json.get("LocalID"));
+                String jsonString3 = mapper.writeValueAsString(userModel);
+                WebClient.create().put().uri("http://localhost:8080/user/add_object/").bodyValue(jsonString3).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).exchange().block().bodyToMono(String.class).block();
+            }
+        }
     }
 }

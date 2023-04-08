@@ -1,0 +1,88 @@
+//        Session session = driver.session();
+//            session.run(" with randomUUID() AS uui\n" +
+//                    " CALL apoc.load.json(\"file///notes" + j + ".json\") YIELD value\n" +
+//                    "    UNWIND value AS q\n" +
+//                    "    MERGE (p:WordModel {id: q.LocalID})\n" +
+//                    "    ON CREATE SET p.id = q.ID,\n" +
+//                    "    p.form = q.FORM,\n" +
+//                    "    p.lemma = q.LEMMA,\n" +
+//                    "    p.postag = q.POSTAG,\n" +
+//                    "    p.feats = q.FEATS,\n" +
+//                    "    p.deprel = uui,\n" +
+//                    "    p.head = q.HEAD\n" +
+//                    "    return p, q, value\n");
+////                for (int i = 0; i < listJson.size(); i++) {
+//            session.run("  MATCH (p:WordModel),(q:WordModel)\n" +
+//                    "    WHERE p.id = q.head and p.deprel=q.deprel\n" +
+//                    "    CREATE (q)-[rel:DEPENDS]->(p)");
+
+
+//        session.run(" with randomUUID() AS uui2\n" +
+//                "    CALL apoc.load.json(\"file///notes" + 1 + ".json\") YIELD value\n" +
+//                "    UNWIND value AS q\n" +
+//                "    MERGE (p:UserModel {id: q.LocalID})\n" +
+//                "    ON CREATE SET p.id = q.ID,\n" +
+//                "    p.form = q.FORM,\n" +
+//                "    p.head = q.HEAD,\n" +
+//                "    p.feats = q.FEATS,\n" +
+//                "    p.deprel = uui2\n" +
+//                "    return p, q, value");
+//        session.run(" with randomUUID() AS uui2\n" +
+//                "    CALL apoc.load.json(\"file///notes" + 2 + ".json\") YIELD value\n" +
+//                "    UNWIND value AS q\n" +
+//                "    MERGE (p:UserModel {id: q.LocalID})\n" +
+//                "    ON CREATE SET p.id = q.ID,\n" +
+//                "    p.form = q.FORM,\n" +
+//                "    p.head = q.HEAD,\n" +
+//                "    p.feats = q.FEATS,\n" +
+//                "    p.deprel = uui2\n" +
+//                "    return p, q, value");
+//        session.run(" with randomUUID() AS uui2\n" +
+//                "    CALL apoc.load.json(\"file///notes" + 3 + ".json\") YIELD value\n" +
+//                "    UNWIND value AS q\n" +
+//                "    MERGE (p:UserModel {id: q.LocalID})\n" +
+//                "    ON CREATE SET p.id = q.ID,\n" +
+//                "    p.form = q.FORM,\n" +
+//                "    p.head = q.HEAD,\n" +
+//                "    p.feats = q.FEATS,\n" +
+//                "    p.deprel = uui2\n" +
+//                "    return p, q, value");
+//        Session session2 = driver.session();
+//        session2.run("  MATCH (p:UserModel),(q:UserModel)\n" +
+//                "    WHERE q.feats='Npmsny' and p.deprel=q.deprel and p.feats<>'Npmsny'\n" +
+//                "    CREATE (q)-[rel:DEPENDS]->(p)");
+
+
+//    MATCH (p:WordModel),(q:WordModel)
+//    WHERE p.id = q.head and p.LocalID=q.LocalID
+//    CREATE (q)-[rel:DEPENDS]->(p)
+//    RETURN p,q,rel;
+//
+
+
+// with randomUUID() AS uui
+// CALL apoc.load.json("file///notes4.json") YIELD value
+//    UNWIND value AS q
+//    MERGE (p:WordModel {id: q.LocalID})
+//    ON CREATE SET p.form = q.FORM,
+//    p.lemma = q.LEMMA,
+//    p.postag = q.POSTAG,
+//    p.feats = q.FEATS,
+//    p.deprel = uui,
+//    p.head = q.HEAD
+//    return p, q, value
+
+
+    MATCH (n)
+    OPTIONAL MATCH (n)-[r]-()
+    DELETE n,r
+
+
+//    with randomUUID() AS uui
+//    CALL apoc.load.json("file///notes5.json") YIELD value
+//    UNWIND value AS q
+//    MERGE (p:User {id: q.FORM})
+//    ON CREATE SET p.feats = q.FEATS,
+//    p.head = q.HEAD,
+//    p.tag = q.uui
+//    return p, q, value

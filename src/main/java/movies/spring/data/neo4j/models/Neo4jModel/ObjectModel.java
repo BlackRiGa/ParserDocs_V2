@@ -6,17 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Relationship;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Node("UserModel")
+@Node("ObjectModel")
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserModel {
+public class ObjectModel {
     @Id
     private String uuid;
     private String localID;
