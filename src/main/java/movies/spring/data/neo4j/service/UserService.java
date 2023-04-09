@@ -1,6 +1,7 @@
 package movies.spring.data.neo4j.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import movies.spring.data.neo4j.models.Neo4jModel.UserModel;
 import movies.spring.data.neo4j.models.PostgreModel.UserModelForPostgres;
 import movies.spring.data.neo4j.repositories.repositoryForPostgre.UserRepositoryPostgres;
 import movies.spring.data.neo4j.util.DatabaseTwoConfig;
@@ -14,11 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 public class UserService {
     private final UserRepositoryPostgres userRepositoryPostgres;
     private final DatabaseTwoConfig databaseTwoConfig;
-
     @Autowired
     public UserService(UserRepositoryPostgres userRepositoryPostgres, DatabaseTwoConfig databaseTwoConfig) {
         this.userRepositoryPostgres = userRepositoryPostgres;

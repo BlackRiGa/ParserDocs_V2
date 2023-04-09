@@ -12,8 +12,10 @@ import movies.spring.data.neo4j.repositories.repositoryForPostgre.UserRepository
 import movies.spring.data.neo4j.service.ParsersService;
 import movies.spring.data.neo4j.service.UserService;
 import movies.spring.data.neo4j.util.JsonUtils;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.neo4j.driver.Driver;
+import org.neo4j.driver.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -56,7 +58,7 @@ public class ParserController {
         this.driver = driver;
     }
 
-    @GetMapping(value = {"", "/"})
+    @GetMapping(value = {"all", "/"})
     Flux<UserModel> getMovies() {
         return userRepositoryNeo4j.findAll();
     }
@@ -70,7 +72,6 @@ public class ParserController {
     Mono<ActionModel> createOrUpdateMovie(@RequestBody ActionModel newAction) {
         return actionRepository.save(newAction);
     }
-
     @PutMapping(value = {"add_object", "/"})
     Mono<ObjectModel> createOrUpdateMovie(@RequestBody ObjectModel newobjectModel) {
         return objectRepository.save(newobjectModel);
@@ -92,7 +93,13 @@ public class ParserController {
         String result = new String(Files.readAllBytes(Paths.get(NOTES1)));
         ObjectMapper mapper = new ObjectMapper();
         List<HashMap<Integer, String>> people = (List<HashMap<Integer, String>>) mapper.readValue(result, List.class);
+
+        String list = parsersService.addJsonArrayAfterPostgres(NOTES1);
+        parsersService.textInFiles(list, NOTES1);
+        List<String> list1ForNeo4j = parsersService.testArrayJsonParseAfterPostgres(NOTES1);
+
         for (int i = 0; i < people.size(); i++) {
+            parsersService.saveInNeo4j(list1ForNeo4j.get(i));
             HashMap<Integer, String> linkedHashMap = people.get(i);
             UserModelForPostgres userModel = new UserModelForPostgres();
             userModel.setUUID(linkedHashMap.get("UUID"));
@@ -110,7 +117,13 @@ public class ParserController {
         String result2 = new String(Files.readAllBytes(Paths.get(NOTES2)));
         ObjectMapper mapper2 = new ObjectMapper();
         List<HashMap<Integer, String>> people2 = (List<HashMap<Integer, String>>) mapper2.readValue(result2, List.class);
+
+        String list2 = parsersService.addJsonArrayAfterPostgres(NOTES2);
+        parsersService.textInFiles(list2, NOTES2);
+        List<String> list2ForNeo4j = parsersService.testArrayJsonParseAfterPostgres(NOTES2);
+
         for (int i = 0; i < people2.size(); i++) {
+            parsersService.saveInNeo4j(list2ForNeo4j.get(i));
             HashMap<Integer, String> linkedHashMap = people2.get(i);
             UserModelForPostgres userModel2 = new UserModelForPostgres();
             userModel2.setUUID(linkedHashMap.get("UUID"));
@@ -127,7 +140,13 @@ public class ParserController {
         String result3 = new String(Files.readAllBytes(Paths.get(NOTES3)));
         ObjectMapper mapper3 = new ObjectMapper();
         List<HashMap<Integer, String>> people3 = (List<HashMap<Integer, String>>) mapper3.readValue(result3, List.class);
+
+        String list3 = parsersService.addJsonArrayAfterPostgres(NOTES3);
+        parsersService.textInFiles(list3, NOTES3);
+        List<String> list3ForNeo4j = parsersService.testArrayJsonParseAfterPostgres(NOTES3);
+
         for (int i = 0; i < people3.size(); i++) {
+            parsersService.saveInNeo4j(list3ForNeo4j.get(i));
             HashMap<Integer, String> linkedHashMap = people3.get(i);
             UserModelForPostgres userModel3 = new UserModelForPostgres();
             userModel3.setUUID(linkedHashMap.get("UUID"));
@@ -141,14 +160,10 @@ public class ParserController {
             System.out.println(people3.get(i));
         }
 
-        parsersService.saveInNeo4j(NOTES1);
-        parsersService.saveInNeo4j(NOTES2);
-        parsersService.saveInNeo4j(NOTES3);
-
-//        System.out.println("___________________");
-//        List<String> list2ForNeo4j = parsersService.testArrayJsonParseAfterPostgres("C:\\Users\\i.sobol\\.Neo4jDesktop\\relate-data\\dbmss\\dbms-a3b22860-160e-4842-8073-89996fec4f70\\import\\file\\notes2.json");
-//        System.out.println("___________________");
-//        List<String> list3ForNeo4j = parsersService.testArrayJsonParseAfterPostgres("C:\\Users\\i.sobol\\.Neo4jDesktop\\relate-data\\dbmss\\dbms-a3b22860-160e-4842-8073-89996fec4f70\\import\\file\\notes3.json");
+        Session session2 = driver.session();
+        session2.run("  MATCH (p:UserModel),(q:ActionModel)\n" +
+                "    WHERE q.feats='Npmsny' and p.deprel=q.deprel and p.feats<>'Npmsny'\n" +
+                "    CREATE (q)-[rel:ACTION]->(p)");
 
     }
 }
