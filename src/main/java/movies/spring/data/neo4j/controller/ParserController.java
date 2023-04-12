@@ -162,8 +162,18 @@ public class ParserController {
 
         Session session2 = driver.session();
         session2.run("  MATCH (p:UserModel),(q:ActionModel)\n" +
-                "    WHERE q.feats='Npmsny' and p.deprel=q.deprel and p.feats<>'Npmsny'\n" +
+                "    WHERE q.feats='Vmip3s-a-e' and p.uuid=q.uuid'\n" +
                 "    CREATE (q)-[rel:ACTION]->(p)");
+        session2.run("  MATCH (p:UserModel),(q:ActionModel)\n" +
+                "    WHERE q.feats='Vmip3s-m-e' and p.uuid=q.uuid'\n" +
+                "    CREATE (q)-[rel:ACTION]->(p)");
+        session2.run("  MATCH (p:UserModel),(q:ActionModel)\n" +
+                "    WHERE q.feats='Vmn----a-p' and p.uuid=q.uuid'\n" +
+                "    CREATE (q)-[rel:ACTION]->(p)");
+
+        session2.run("MATCH (p:UserModel),(q:ActionModel)\n" +
+                "WHERE NOT exists((q)-[:ACTION]->(p))\n" +
+                "CREATE (p)-[rel:ACTION]->(q)");
 
     }
 }

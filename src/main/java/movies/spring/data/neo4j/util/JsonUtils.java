@@ -70,12 +70,14 @@ public class JsonUtils {
         str.append("[");
         int flag = 0;
         // берем каждое значение из массива json отдельно
+        UUID uniqueKey = UUID.randomUUID();
+        System.out.println(uniqueKey);
         while (i.hasNext()) {
             flag++;
             JSONObject innerObj = (JSONObject) i.next();
             if (innerObj.get("FEATS").equals("Npmsny") || innerObj.get("FEATS").equals("Vmip3s-a-e") || innerObj.get("FEATS").equals("Ncfsan") || innerObj.get("FEATS").equals("Vmip3s-m-e") || innerObj.get("FEATS").equals("Vmn----a-p")){
-                UUID uniqueKey = UUID.randomUUID();
-                System.out.println(uniqueKey);
+              //
+            //
                 str.append("{\"UUID\":" + "\"").append(uniqueKey).append("\",").append("\"LocalID\":" + "\"").append(innerObj.get("LocalID")).append("\",").append("\"FORM\":").append("\"").append(innerObj.get("FORM")).append("\",").append("\"ID\":").append("\"").append(innerObj.get("ID")).append("\",").append("\"HEAD\":").append("\"").append(innerObj.get("HEAD")).append("\",").append("\"FEATS\":").append("\"").append(innerObj.get("FEATS")).append("\",").append("\"DEPREL\":").append("\"").append(innerObj.get("DEPREL")).append("\"");
                 if (flag == 7) {
                     str.append("}");
